@@ -41,7 +41,18 @@ Start the Flask server:
 python app.py
 ```
 
+Or use the convenience script:
+```bash
+./run.sh
+```
+
 The service will be available at `http://localhost:5000`
+
+**Note**: Debug mode is disabled by default for security. To enable it for development, set the `FLASK_DEBUG` environment variable:
+```bash
+export FLASK_DEBUG=true
+python app.py
+```
 
 ### API Endpoints
 
@@ -134,6 +145,31 @@ The project includes automated testing via GitHub Actions that runs tests on:
 - Python versions: 3.9, 3.10, 3.11
 
 Tests run automatically on pushes and pull requests to the `main` and `develop` branches.
+
+## Security
+
+This project follows security best practices:
+- Debug mode is disabled by default
+- Error messages don't expose internal implementation details
+- GitHub Actions workflows use minimal permissions
+- All dependencies are pinned to specific versions
+
+For more details, see [SECURITY_SUMMARY.md](SECURITY_SUMMARY.md).
+
+### Production Deployment
+
+For production use, consider:
+1. Using a production WSGI server (Gunicorn, uWSGI, etc.) instead of Flask's built-in server
+2. Setting up HTTPS with valid certificates
+3. Implementing rate limiting and authentication
+4. Running the service behind a reverse proxy (nginx, Apache, etc.)
+5. Monitoring logs and setting up alerts
+
+Example with Gunicorn:
+```bash
+pip install gunicorn
+gunicorn -w 4 -b 0.0.0.0:5000 'app:create_app()'
+```
 
 ## Future Enhancements
 
