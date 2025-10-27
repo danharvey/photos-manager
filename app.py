@@ -90,9 +90,11 @@ def create_app(test_config=None):
                 'by_month': dict(sorted(by_month.items(), reverse=True)[:12])
             })
         except Exception as e:
+            # Log the error for debugging but don't expose details to users
+            app.logger.error(f"Analytics error: {str(e)}")
             return jsonify({
                 'error': 'Failed to retrieve analytics',
-                'message': str(e)
+                'message': 'An internal error occurred while processing your request'
             }), 500
     
     @app.route('/analytics/by-month')
@@ -117,9 +119,10 @@ def create_app(test_config=None):
                 'by_month': dict(sorted(by_month.items(), reverse=True))
             })
         except Exception as e:
+            app.logger.error(f"Monthly analytics error: {str(e)}")
             return jsonify({
                 'error': 'Failed to retrieve monthly analytics',
-                'message': str(e)
+                'message': 'An internal error occurred while processing your request'
             }), 500
     
     @app.route('/analytics/by-year')
@@ -144,9 +147,10 @@ def create_app(test_config=None):
                 'by_year': dict(sorted(by_year.items()))
             })
         except Exception as e:
+            app.logger.error(f"Yearly analytics error: {str(e)}")
             return jsonify({
                 'error': 'Failed to retrieve yearly analytics',
-                'message': str(e)
+                'message': 'An internal error occurred while processing your request'
             }), 500
     
     @app.route('/analytics/size')
@@ -177,14 +181,17 @@ def create_app(test_config=None):
                 'average_size_mb': round(avg_size / (1024 * 1024), 2)
             })
         except Exception as e:
+            app.logger.error(f"Size analytics error: {str(e)}")
             return jsonify({
                 'error': 'Failed to retrieve size analytics',
-                'message': str(e)
+                'message': 'An internal error occurred while processing your request'
             }), 500
     
     return app
 
 
 if __name__ == '__main__':
+    import os
+    debug_mode = os.environ.get('FLASK_DEBUG', 'False').lower() in ('true', '1', 'yes')
     app = create_app()
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=debug_mode, host='0.0.0.0', port=5000)
