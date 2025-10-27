@@ -15,8 +15,8 @@ A Flask-based service for managing and analyzing Apple Photos libraries with aut
 
 ## Requirements
 
-- Python 3.9 or higher
-- OSXPhotos library (for Apple Photos access on macOS)
+- Python 3.12 or higher
+- OSXPhotos library (required for Apple Photos access)
 - Flask web framework
 
 ## Installation
@@ -127,7 +127,7 @@ pytest test_app.py -v
 
 ### Testing with Different Python Versions
 
-The project is tested against Python 3.9, 3.10, and 3.11 on both Ubuntu and macOS via GitHub Actions.
+The project is tested against Python 3.12 on both Ubuntu and macOS via GitHub Actions.
 
 ## Platform Notes
 
@@ -142,7 +142,7 @@ On Linux, OSXPhotos can still be used to access Photos libraries that have been 
 The project includes automated testing via GitHub Actions that runs tests on:
 - Ubuntu Latest
 - macOS Latest
-- Python versions: 3.9, 3.10, 3.11
+- Python version: 3.12
 
 Tests run automatically on pushes and pull requests to the `main` and `develop` branches.
 

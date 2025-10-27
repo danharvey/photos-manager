@@ -49,7 +49,6 @@ class TestBasicEndpoints:
 class TestAnalyticsWithoutOSXPhotos:
     """Test analytics endpoints when OSXPhotos is not available"""
     
-    @patch('app.OSXPHOTOS_AVAILABLE', False)
     def test_analytics_without_osxphotos(self, client):
         """Test analytics endpoint returns error when OSXPhotos not available"""
         with patch('app.OSXPHOTOS_AVAILABLE', False):
@@ -62,7 +61,6 @@ class TestAnalyticsWithoutOSXPhotos:
             data = response.get_json()
             assert 'error' in data
     
-    @patch('app.OSXPHOTOS_AVAILABLE', False)
     def test_analytics_by_month_without_osxphotos(self, client):
         """Test by-month endpoint returns error when OSXPhotos not available"""
         with patch('app.OSXPHOTOS_AVAILABLE', False):
@@ -72,7 +70,6 @@ class TestAnalyticsWithoutOSXPhotos:
             response = test_client.get('/analytics/by-month')
             assert response.status_code == 503
     
-    @patch('app.OSXPHOTOS_AVAILABLE', False)
     def test_analytics_by_year_without_osxphotos(self, client):
         """Test by-year endpoint returns error when OSXPhotos not available"""
         with patch('app.OSXPHOTOS_AVAILABLE', False):
@@ -82,7 +79,6 @@ class TestAnalyticsWithoutOSXPhotos:
             response = test_client.get('/analytics/by-year')
             assert response.status_code == 503
     
-    @patch('app.OSXPHOTOS_AVAILABLE', False)
     def test_analytics_size_without_osxphotos(self, client):
         """Test size endpoint returns error when OSXPhotos not available"""
         with patch('app.OSXPHOTOS_AVAILABLE', False):

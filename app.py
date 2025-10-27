@@ -10,13 +10,14 @@ from datetime import datetime
 from collections import defaultdict
 import sys
 
-# OSXPhotos is optional and may not be available on all systems
+# Import OSXPhotos - this is required for the service to function
 try:
     import osxphotos
     OSXPHOTOS_AVAILABLE = True
 except ImportError:
     osxphotos = None
     OSXPHOTOS_AVAILABLE = False
+    # Note: OSXPhotos is required for this service. Install with: pip install osxphotos
 
 
 def create_app(test_config=None):
