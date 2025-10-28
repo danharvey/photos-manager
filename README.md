@@ -32,6 +32,12 @@ cd photos-manager
 pip install -r requirements.txt
 ```
 
+**Note:** If you experience timeout issues installing `osxphotos`, you can install dependencies separately:
+```bash
+pip install Flask==3.0.0 pytest==7.4.3 pytest-flask==1.3.0
+pip install "osxphotos>=0.73.4" --timeout 300
+```
+
 ## Usage
 
 ### Running the Service
