@@ -66,19 +66,21 @@ def create_app(test_config=None):
             photos = photosdb.photos()
             
             total_photos = len(photos)
-            total_size = sum(p.original_filesize or 0 for p in photos)
-            
-            # Count photos by year
+            total_size = 0
             by_year = defaultdict(int)
+            by_month = defaultdict(int)
+            
+            # Single loop to calculate all metrics
             for photo in photos:
+                # Sum file sizes
+                if photo.original_filesize:
+                    total_size += photo.original_filesize
+                
+                # Count by year and month
                 if photo.date:
                     year = photo.date.year
                     by_year[year] += 1
-            
-            # Count photos by month (last 12 months)
-            by_month = defaultdict(int)
-            for photo in photos:
-                if photo.date:
+                    
                     month_key = photo.date.strftime('%Y-%m')
                     by_month[month_key] += 1
             
