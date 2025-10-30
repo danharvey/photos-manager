@@ -132,7 +132,7 @@ pytest test_app.py -v
 
 ### Testing with Different Python Versions
 
-The project is tested against Python 3.12 on both Ubuntu and macOS via GitHub Actions.
+The project is tested with Python 3.12.
 
 ## Platform Notes
 
@@ -142,21 +142,11 @@ On macOS, the service can access your Apple Photos library directly through OSXP
 ### Linux
 On Linux, OSXPhotos can still be used to access Photos libraries that have been copied from macOS or accessed via network shares.
 
-## GitHub Actions
-
-The project includes automated testing via GitHub Actions that runs tests on:
-- Ubuntu Latest
-- macOS Latest
-- Python version: 3.12
-
-Tests run automatically on pushes and pull requests to the `main` and `develop` branches.
-
 ## Security
 
 This project follows security best practices:
 - Debug mode is disabled by default
 - Error messages don't expose internal implementation details
-- GitHub Actions workflows use minimal permissions
 - All dependencies are pinned to specific versions
 
 For more details, see [SECURITY_SUMMARY.md](SECURITY_SUMMARY.md).
