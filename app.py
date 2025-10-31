@@ -13,11 +13,10 @@ import sys
 # Import OSXPhotos - this is required for the service to function
 try:
     import osxphotos
-    OSXPHOTOS_AVAILABLE = True
-except ImportError:
-    osxphotos = None
-    OSXPHOTOS_AVAILABLE = False
-    # Note: OSXPhotos is required for this service. Install with: pip install osxphotos
+except ImportError as e:
+    print("ERROR: OSXPhotos library is required but not installed.", file=sys.stderr)
+    print("Please install it with: pip install osxphotos", file=sys.stderr)
+    sys.exit(1)
 
 
 def create_app(test_config=None):
@@ -33,7 +32,6 @@ def create_app(test_config=None):
         return jsonify({
             'service': 'Photos Manager',
             'version': '1.0.0',
-            'osxphotos_available': OSXPHOTOS_AVAILABLE,
             'endpoints': {
                 '/': 'Service information',
                 '/health': 'Health check',
@@ -48,19 +46,12 @@ def create_app(test_config=None):
     def health():
         """Health check endpoint"""
         return jsonify({
-            'status': 'healthy',
-            'osxphotos_available': OSXPHOTOS_AVAILABLE
+            'status': 'healthy'
         })
     
     @app.route('/analytics')
     def analytics():
         """Get comprehensive analytics from Apple Photos"""
-        if not OSXPHOTOS_AVAILABLE:
-            return jsonify({
-                'error': 'OSXPhotos library not available',
-                'message': 'This service requires OSXPhotos to be installed'
-            }), 503
-        
         try:
             photosdb = osxphotos.PhotosDB()
             photos = photosdb.photos()
@@ -103,11 +94,6 @@ def create_app(test_config=None):
     @app.route('/analytics/by-month')
     def analytics_by_month():
         """Get photos grouped by month"""
-        if not OSXPHOTOS_AVAILABLE:
-            return jsonify({
-                'error': 'OSXPhotos library not available'
-            }), 503
-        
         try:
             photosdb = osxphotos.PhotosDB()
             photos = photosdb.photos()
@@ -131,11 +117,6 @@ def create_app(test_config=None):
     @app.route('/analytics/by-year')
     def analytics_by_year():
         """Get photos grouped by year"""
-        if not OSXPHOTOS_AVAILABLE:
-            return jsonify({
-                'error': 'OSXPhotos library not available'
-            }), 503
-        
         try:
             photosdb = osxphotos.PhotosDB()
             photos = photosdb.photos()
@@ -159,11 +140,6 @@ def create_app(test_config=None):
     @app.route('/analytics/size')
     def analytics_size():
         """Get storage size information"""
-        if not OSXPHOTOS_AVAILABLE:
-            return jsonify({
-                'error': 'OSXPhotos library not available'
-            }), 503
-        
         try:
             photosdb = osxphotos.PhotosDB()
             photos = photosdb.photos()
