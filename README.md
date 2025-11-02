@@ -4,6 +4,10 @@ A Flask-based service for managing and analyzing Apple Photos libraries with aut
 
 ## Features
 
+- **Web UI Dashboard**: Modern, intuitive web interface for managing photos
+  - Visual analytics with interactive charts
+  - Real-time data visualization
+  - Responsive design for desktop and mobile
 - **Analytics Dashboard**: Get insights into your photo library
   - Total photo counts
   - Photos organized by year and month
@@ -53,17 +57,43 @@ Or use the convenience script:
 
 The service will be available at `http://localhost:5000`
 
+Open your web browser and navigate to `http://localhost:5000` to access the web UI dashboard.
+
 **Note**: Debug mode is disabled by default for security. To enable it for development, set the `FLASK_DEBUG` environment variable:
 ```bash
 export FLASK_DEBUG=true
 python app.py
 ```
 
+### Demo Mode
+
+For testing and demonstration purposes without an Apple Photos library, you can run the service in demo mode:
+```bash
+export DEMO_MODE=true
+python app.py
+```
+
+This will show sample data in the UI and API responses.
+
+### Web UI
+
+The web interface provides:
+- **Dashboard Overview**: Visual representation of your photo library statistics
+- **Interactive Charts**: Bar charts showing photos by year and month
+- **Real-time Updates**: Refresh button to reload data
+- **Responsive Design**: Works on desktop, tablet, and mobile devices
+
 ### API Endpoints
 
-#### Get Service Information
+#### Web UI Dashboard
 ```bash
 GET /
+```
+Serves the interactive web dashboard.
+
+#### Get API Information
+```bash
+GET /api
 ```
 Returns service information and available endpoints.
 
