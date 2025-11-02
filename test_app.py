@@ -28,8 +28,15 @@ class TestBasicEndpoints:
     """Test basic endpoints"""
     
     def test_index(self, client):
-        """Test the index endpoint"""
+        """Test the index endpoint serves HTML"""
         response = client.get('/')
+        assert response.status_code == 200
+        assert b'Photos Manager' in response.data
+        assert 'text/html' in response.content_type
+    
+    def test_api_info(self, client):
+        """Test the API info endpoint"""
+        response = client.get('/api')
         assert response.status_code == 200
         data = response.get_json()
         assert data['service'] == 'Photos Manager'

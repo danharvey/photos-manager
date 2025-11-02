@@ -5,7 +5,7 @@ This service provides analytics and automation features for Apple Photos
 using the OSXPhotos library. It works on both macOS and Linux.
 """
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 from datetime import datetime
 from collections import defaultdict
 import sys
@@ -26,14 +26,54 @@ def create_app(test_config=None):
     if test_config:
         app.config.update(test_config)
     
+    # Demo mode for testing UI without Photos library
+    import os
+    demo_mode = os.environ.get('DEMO_MODE', 'False').lower() in ('true', '1', 'yes')
+    
+    def get_demo_data():
+        """Return mock data for demo mode"""
+        return {
+            'total_photos': 2450,
+            'total_size_bytes': 12884901888,
+            'total_size_mb': 12288.0,
+            'total_size_gb': 12.0,
+            'by_year': {
+                '2020': 450,
+                '2021': 520,
+                '2022': 580,
+                '2023': 600,
+                '2024': 300
+            },
+            'by_month': {
+                '2024-11': 45,
+                '2024-10': 52,
+                '2024-09': 48,
+                '2024-08': 55,
+                '2024-07': 50,
+                '2024-06': 43,
+                '2024-05': 47,
+                '2024-04': 51,
+                '2024-03': 49,
+                '2024-02': 44,
+                '2024-01': 46,
+                '2023-12': 50
+            }
+        }
+    
     @app.route('/')
     def index():
-        """Root endpoint with service information"""
+        """Serve the web UI dashboard"""
+        return render_template('index.html')
+    
+    @app.route('/api')
+    def api_info():
+        """API endpoint with service information"""
         return jsonify({
             'service': 'Photos Manager',
             'version': '1.0.0',
             'endpoints': {
-                '/': 'Service information',
+                '/': 'Web UI Dashboard',
+                '/api': 'API information',
                 '/health': 'Health check',
                 '/analytics': 'Get analytics summary',
                 '/analytics/by-month': 'Photos grouped by month',
@@ -52,6 +92,9 @@ def create_app(test_config=None):
     @app.route('/analytics')
     def analytics():
         """Get comprehensive analytics from Apple Photos"""
+        if demo_mode:
+            return jsonify(get_demo_data())
+        
         try:
             photosdb = osxphotos.PhotosDB()
             photos = photosdb.photos()
