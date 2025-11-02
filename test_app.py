@@ -32,7 +32,7 @@ class TestBasicEndpoints:
         response = client.get('/')
         assert response.status_code == 200
         assert b'Photos Manager' in response.data
-        assert b'text/html' in response.content_type.encode()
+        assert 'text/html' in response.content_type
     
     def test_api_info(self, client):
         """Test the API info endpoint"""
